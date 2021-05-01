@@ -1,0 +1,433 @@
+swagger: "2.0"
+info:
+  description: REST API for our application. Used to managed the data.
+  version: 1.0.0
+  title: Hair Care Tracker API
+tags:
+- name: "profile"
+  description: Responsible for updating and returning user hair profile.
+- name: "routine"
+  description: Routines of the user.
+- name: "product"
+  description: Products available in the database.
+- name: "userproducts"
+  description: Products owned by the user.
+- name: "authentication"
+  description: Login and sign up endpoints.
+paths:
+  /profile:
+    get:
+      tags:
+      - "profile"
+      summary: Returns the profile of user from the token provided with the request
+      responses:
+        200:
+          description: Profile object
+          schema:
+            type: object
+            required:
+            - age
+            - length
+            - porosity
+            - state
+            - curlType
+            - thickness
+            - denseness
+            properties:
+                id: 
+                  type: number
+                age:
+                  type: string
+                  example: 21
+                length:
+                  type: string
+                  example: 70
+                porosity:
+                  type: string
+                  example: Mediumn
+                state:
+                  type: string
+                  example: Natural
+                curlType:
+                  type: string
+                  example: 2a
+                thickness:
+                  type: string
+                  example: Mediumn
+                denseness:
+                  type: string
+                  example: Mediumn
+                problems:
+                  type: string
+                  example: A lot of problems
+                user:
+                  type: object
+                  example: null
+        500:
+          description: User or profile not found
+    put:
+      tags:
+        - "profile"
+      summary: Adds if does not exist or updates the profile for the user from provied JWT token.
+      parameters:
+        - name: profile
+          in: body
+          description: The profile to create.
+          schema:
+            type: object
+            required:
+            - age
+            - length
+            - porosity
+            - state
+            - curlType
+            - thickness
+            - denseness
+            properties:
+                age:
+                  type: string
+                  example: 21
+                length:
+                  type: string
+                  example: 70
+                porosity:
+                  type: string
+                  example: Mediumn
+                state:
+                  type: string
+                  example: Natural
+                curlType:
+                  type: string
+                  example: 2a
+                thickness:
+                  type: string
+                  example: Mediumn
+                denseness:
+                  type: string
+                  example: Mediumn
+                problems:
+                  type: string
+                  example: A lot of problems
+      responses:
+        200:
+          description: Profile updated successfully.
+        500:
+          description: User not found.
+  /product:
+    get:
+      tags:
+      - "product"
+      summary: Returns list of products from the database not assigned to the user from the provided JWT token.
+      responses:
+        200:
+          description: List of product objects
+          schema:
+            type: array
+            items:
+              properties:
+                id:
+                 type: number
+                name:
+                  type: string
+                  example: Dragon Wash
+                brand:
+                  type: string
+                  example: HairyTaleCosmetics
+                description:
+                  type: string
+                  example: Description
+                capacity:
+                  type: number
+                  example: 250
+                ingredients:
+                  type: array
+                  items: 
+                    properties:
+                      name:
+                        type: string
+                        example: Aqua
+                      category:
+                        type: string
+                        example: Humectant
+                users: 
+                  type: array
+                  example: null
+  /routine:
+    get:
+        tags:
+        - "routine"
+        summary: Returns list of routines for the user from the provided JWT token.
+        responses:
+          200:
+            description: List of routine objects
+            schema:
+              type: array
+              items:
+                required:
+                - id
+                - name
+                - description
+                - date
+                - products
+                properties:
+                    id: 
+                      type: number
+                    name:
+                      type: string
+                      example: First routine
+                    description:
+                      type: string
+                      example: OMO
+                    effects:
+                      type: string
+                      example: Not great 
+                    date:
+                      type: string
+                      example: "2019-09-26T07:58:30.9964"
+                    products:
+                      type: array
+                      items:
+                        properties:
+                          id:
+                           type: number
+                          name:
+                            type: string
+                            example: Dragon Wash
+                          brand:
+                            type: string
+                            example: HairyTaleCosmetics
+                          description:
+                            type: string
+                            example: Description
+                          capacity:
+                            type: number
+                            example: 250
+                          ingredients:
+                            type: array
+                            items: 
+                              properties:
+                                name:
+                                  type: string
+                                  example: Aqua
+                                category:
+                                  type: string
+                                  example: Humectant
+                          users: 
+                            type: array
+                            example: null
+                    user:
+                      type: object
+                      example: null
+          500:
+            description: User or routines not found
+    put:
+      tags:
+        - "routine"
+      summary: Adds if does not exist or updates the routine for the user from provied JWT token.
+      parameters:
+        - name: routine
+          in: body
+          description: The routine to create.
+          schema:
+            type: object
+            required:
+              - name
+              - description
+              - date
+              - products
+            properties:
+                  name:
+                    type: string
+                    example: First routine
+                  description:
+                    type: string
+                    example: OMO
+                  effects:
+                    type: string
+                    example: Not great 
+                  date:
+                    type: string
+                    example: "2019-09-26T07:58:30.9964"
+                  products:
+                    type: array
+                    items:
+                      properties:
+                        id:
+                         type: number
+                        name:
+                          type: string
+                          example: Dragon Wash
+                        brand:
+                          type: string
+                          example: HairyTaleCosmetics
+                        description:
+                          type: string
+                          example: Description
+                        capacity:
+                          type: number
+                          example: 250
+                        ingredients:
+                          type: array
+                          items: 
+                            properties:
+                              name:
+                                type: string
+                                example: Aqua
+                              category:
+                                type: string
+                                example: Humectant
+                        users: 
+                          type: array
+                          example: null
+                  user:
+                    type: object
+                    example: null
+      responses:
+        200:
+          description: Routine updated successfully.
+        500:
+          description: User not found.
+  /userproducts:
+    get:
+        tags:
+        - "userproducts"
+        summary: Returns list of products for the user from the provided JWT token.
+        responses:
+          200:
+            description: List of products objects
+            schema:
+              type: array
+              items:
+                properties:
+                  id:
+                   type: number
+                  name:
+                    type: string
+                    example: Dragon Wash
+                  brand:
+                    type: string
+                    example: HairyTaleCosmetics
+                  description:
+                    type: string
+                    example: Description
+                  capacity:
+                    type: number
+                    example: 250
+                  ingredients:
+                    type: array
+                    items: 
+                      properties:
+                        name:
+                          type: string
+                          example: Aqua
+                        category:
+                          type: string
+                          example: Humectant
+                  users: 
+                    type: array
+                    example: null
+          500:
+            description: User or product not found.
+    put:
+      tags:
+        - "userproducts"
+      summary: Updates the list of products for the user from provied JWT token.
+      parameters:
+        - name: Product
+          in: body
+          description: The routine to create.
+          schema:
+            type: array
+            items:
+              properties:
+                name:
+                  type: string
+                  example: Dragon Wash
+                brand:
+                  type: string
+                  example: HairyTaleCosmetics
+                description:
+                  type: string
+                  example: Description
+                capacity:
+                  type: number
+                  example: 250
+                ingredients:
+                  type: array
+                  items: 
+                    properties:
+                      name:
+                        type: string
+                        example: Aqua
+                      category:
+                        type: string
+                        example: Humectant
+                users: 
+                  type: array
+                  example: null
+      responses:
+        200:
+          description: List of products updated successfully.
+        500:
+          description: User not found.
+  /login:
+    post:
+      tags:
+      - "authentication"
+      summary: Log in user
+      parameters:
+        - name: User credentials
+          in: body
+          description: Credentials for log in proccess.
+          schema:
+            type: object
+            properties:
+              email:
+                type: string
+                example: exmaple@exmaple.com
+              password:
+                type: string
+                example: a0e28395c78b0c5260f53721c263162f
+      responses:
+        200:
+          description: User logged in successfully.
+          schema:
+            type: string
+            example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+        400: 
+          description: Email not found.
+        500:
+          description: Internal error.
+  /signup:
+    post:
+      tags:
+      - "authentication"
+      summary: Sign up new user
+      parameters:
+        - name: User 
+          in: body
+          description: User to be added.  
+          schema:
+            type: object
+            properties:
+              nickname:
+                type: string
+                example: Kub5oN
+              email:
+                type: string
+                example: exmaple@exmaple.com
+              password:
+                type: string
+                example: a0e28395c78b0c5260f53721c263162f
+      responses:
+        200:
+          description: User signed up successfully.
+          schema:
+            type: string
+            example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+        400: 
+          description: Email exists.
+        409:
+          description: Nickname exists.
+        500:
+          description: Internal error.

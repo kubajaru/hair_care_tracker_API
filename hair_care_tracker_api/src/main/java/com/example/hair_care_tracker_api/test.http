@@ -1,0 +1,20 @@
+POST http://localhost:8080/signup
+Content-Type: application/json
+
+{
+  "nickname": "Kub5oN",
+  "email": "exmaple@exmaple.com",
+  "password": "strongpassword"
+}
+
+###
+
+POST http://localhost:8080/login
+Content-Type: application/json
+
+{
+  "email": "exmaple@exmaple.com",
+  "password": "strongpassword"
+}
+
+###
